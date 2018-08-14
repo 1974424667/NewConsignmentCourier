@@ -1,0 +1,53 @@
+package com.yl.newconsignmentcourier.utils;
+
+import android.util.Log;
+
+
+/**
+ * Description: 自定义日志工具
+ * Copyright  : Copyright (c) 2018
+ * Company    : 西安千百网络
+ * Author     : yl
+ * Date       : 2018/8/14 15:08141
+ */
+public class LogUtil {
+    /*public static final int VERBOSE = 1;
+    public static final int DEBUG = 2;
+    public static final int INFO = 3;
+    public static final int WARM = 4;
+    public static final int ERROR = 5;
+    public static final int LEVEL = VERBOSE;*/
+    //控制日志是否打印  true为打印日志,false  true  为不打印日志
+    public static final boolean LEVEL = false;
+
+    /* public static void v(String tag, String msg) {
+         if (LEVEL <= VERBOSE) {
+             Log.v(tag, msg);
+         }
+     }
+
+
+
+     public static void d(String tag, String msg) {
+         if (LEVEL <= DEBUG) {
+             Log.v(tag, msg);
+         }
+     }
+ /*
+     public static void w(String tag, String msg) {
+         if (LEVEL <= WARM) {
+             Log.v(tag, msg);
+         }
+     }
+
+     public static void e(String tag, String msg) {
+         if (LEVEL <= ERROR) {
+             Log.v(tag, msg);
+         }
+     }*/
+    public static void i(String tag, String msg) {
+        if (LEVEL) {
+            Log.v(tag, msg);
+        }
+    }
+}

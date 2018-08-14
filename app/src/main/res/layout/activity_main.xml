@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+
+    <FrameLayout
+        android:id="@+id/fl_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <RadioGroup
+        android:id="@+id/rd_group"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorWhite"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rd_newadvisory"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/tab_menu_icon1"
+            android:gravity="center"
+            android:paddingTop="3dp"
+            android:text="新闻咨询"
+            android:textColor="@drawable/tab_menu_text"
+            android:textSize="12sp" />
+
+        <RadioButton
+            android:id="@+id/rd_clewreported"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/tab_menu_icon2"
+            android:gravity="center"
+            android:paddingTop="3dp"
+            android:text="线索上报"
+            android:textColor="@drawable/tab_menu_text"
+            android:textSize="12sp" />
+
+        <RadioButton
+            android:id="@+id/rd_informationcollection"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/tab_menu_icon3"
+            android:gravity="center"
+            android:paddingTop="3dp"
+            android:text="信息采集"
+            android:textColor="@drawable/tab_menu_text"
+            android:textSize="12sp" />
+
+        <RadioButton
+            android:id="@+id/rd_personalinformation"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/tab_menu_icon4"
+            android:gravity="center"
+            android:paddingTop="3dp"
+            android:text="个人信息"
+            android:textColor="@drawable/tab_menu_text"
+            android:textSize="12sp" />
+    </RadioGroup>
+</LinearLayout>

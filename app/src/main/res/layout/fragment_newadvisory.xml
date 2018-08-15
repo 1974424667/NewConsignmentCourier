@@ -6,5 +6,11 @@
     tools:context=".activity.MainActivity">
 
     <include layout="@layout/activity_base" />
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="新闻咨询"
+        android:textColor="#f00"
+        android:textSize="20sp" />
 </RelativeLayout>

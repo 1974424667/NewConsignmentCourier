@@ -1,17 +1,14 @@
 package com.yl.newconsignmentcourier.baseappliction;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.Environment;
 import android.os.Handler;
 
-
 import com.yl.newconsignmentcourier.utils.LogUtil;
 
 import java.io.File;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 
 /**
  * Description:全局生命周期最长
@@ -21,12 +18,10 @@ import java.util.ArrayList;
  * Date       : 2018/8/14 15:08141
  */
 public class BaseApplication extends Application {
-
     public Context context;
     public static BaseApplication instance;
     public int mainThreadId;
     public Handler handler;
-    private ArrayList<Activity> activities = new ArrayList<>();
     private String TAG = "BaseApplication";
 
 
@@ -45,11 +40,10 @@ public class BaseApplication extends Application {
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler());//捕获全局异常
 
     }
+
     //初始化http网络请求
     private void initHttp() {
     }
-
-
 
 
     class ExceptionHandler implements Thread.UncaughtExceptionHandler {
@@ -63,7 +57,7 @@ public class BaseApplication extends Application {
             try {
                 writer = new PrintWriter(new File(Environment
                         .getExternalStorageDirectory().getAbsolutePath()
-                        + "/IWISerr.txt"));
+                        + "/MyAppErr.txt"));
                 ex.printStackTrace(writer);
                 writer.flush();
                 writer.close();

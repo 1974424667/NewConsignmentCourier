@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/relativeLayout2"
     android:layout_width="match_parent"
     android:layout_height="39dp"
@@ -11,7 +12,7 @@
         android:id="@+id/backspace"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="20dp"
         android:gravity="center">
 
         <ImageView
@@ -45,22 +46,32 @@
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="10dp">
+        android:layout_marginRight="20dp">
 
         <ImageView
+            android:id="@+id/imfo_missage"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:src="@mipmap/index_icon_imfo" />
 
-        <com.itingchunyu.badgeview.BaseBadgeView
-            android:id="@+id/btv_missage"
-            android:layout_width="15dp"
+        <com.javonlee.dragpointview.view.DragPointView
+            android:id="@+id/drag_point_view"
+            android:layout_width="wrap_content"
             android:layout_height="15dp"
             android:layout_gravity="right|top"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/shape_drag_point_red"
             android:gravity="center"
-            android:visibility="gone" />
+            android:textColor="#fff"
+            android:textSize="10sp"
+            android:visibility="invisible"
+            app:centerMinRatio="0.5"
+            app:colorStretching="#f00"
+            app:dragCircleRadius="100dp"
+            app:maxDragLength="1dp"
+            app:canDrag="false"
+            app:recoveryAnimBounce="01" />
 
     </RelativeLayout>
 </RelativeLayout>

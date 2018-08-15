@@ -3,16 +3,31 @@ package com.yl.newconsignmentcourier.activity;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTabHost;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.RadioButton;
+import android.widget.ImageView;
+import android.widget.TabHost;
+import android.widget.TextView;
 
 import com.yl.newconsignmentcourier.R;
-import com.yl.newconsignmentcourier.factory.FragmentFactory;
+import com.yl.newconsignmentcourier.fargemnt.ClewReportedFragment;
+import com.yl.newconsignmentcourier.fargemnt.InformationCollectionFragment;
+import com.yl.newconsignmentcourier.fargemnt.NewAdvisoryFragment;
+import com.yl.newconsignmentcourier.fargemnt.PersonalInformationFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Description:主页面
@@ -22,8 +37,19 @@ import com.yl.newconsignmentcourier.factory.FragmentFactory;
  * Date       : 2018/8/14 15:08141
  */
 
-public class MainActivity extends BaseActivity implements View.OnClickListener {
-    private RadioButton mNewAdvisory, mClewrePorted, mInformationCollection, mPersonalInformation;
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
+    private FragmentTabHost mTabHost;
+    private ViewPager mViewPager;
+    private List<Fragment> mFragmentList;
+    private Class mClass[] = {NewAdvisoryFragment.class, ClewReportedFragment.class, InformationCollectionFragment.class, PersonalInformationFragment.class};
+    private Fragment mFragment[] = {new NewAdvisoryFragment(), new ClewReportedFragment(), new InformationCollectionFragment(), new PersonalInformationFragment()};
+    private String mTitles[] = {"新闻咨询", "线索上报", "信息采集", "个人信息"};
+    private int mImages[] = {
+            R.drawable.tab_menu_icon1,
+            R.drawable.tab_menu_icon2,
+            R.drawable.tab_menu_icon3,
+            R.drawable.tab_menu_icon4
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,54 +64,116 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
         setContentView(R.layout.activity_main);
-        initView();
-        //默认选中
-        setCurrentFragment(0);
+        init();
 
+    }
+
+    private void init() {
+        initView();
+        initEvent();
+        initDrawer();
+    }
+
+    //侧边栏
+    private void initDrawer() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     private void initView() {
-        mNewAdvisory = (RadioButton) findViewById(R.id.rd_newadvisory);
-        mClewrePorted = (RadioButton) findViewById(R.id.rd_clewreported);
-        mInformationCollection = (RadioButton) findViewById(R.id.rd_informationcollection);
-        mPersonalInformation = (RadioButton) findViewById(R.id.rd_personalinformation);
-        mNewAdvisory.setOnClickListener(this);
-        mClewrePorted.setOnClickListener(this);
-        mInformationCollection.setOnClickListener(this);
-        mPersonalInformation.setOnClickListener(this);
-    }
-
-
-    //加载fagment
-    private void setCurrentFragment(int position) {
-        //得到要显示的fragment
-        Fragment fragment = FragmentFactory.getFragment(position);
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();//通过FragmentManager得到fragment事务
-        transaction.replace(R.id.fl_content, fragment);                //将fragment放到content_home中进行显示
-        transaction.commit();                                   //将事务进行提交
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.rd_newadvisory:
-                setCurrentFragment(0);
-                break;
-            case R.id.rd_clewreported:
-                setCurrentFragment(1);
-                break;
-            case R.id.rd_informationcollection:
-                setCurrentFragment(2);
-                break;
-            case R.id.rd_personalinformation:
-                setCurrentFragment(3);
-                break;
+        mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
+        mViewPager = (ViewPager) findViewById(R.id.view_pager);
+        mFragmentList = new ArrayList<Fragment>();
+        mTabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
+        mTabHost.getTabWidget().setDividerDrawable(null);
+        for (int i = 0; i < mFragment.length; i++) {
+            TabHost.TabSpec tabSpec = mTabHost.newTabSpec(mTitles[i]).setIndicator(getTabView(i));
+            mTabHost.addTab(tabSpec, mClass[i], null);
+            mFragmentList.add(mFragment[i]);
+            mTabHost.getTabWidget().getChildAt(i).setBackgroundColor(Color.WHITE);
         }
+        mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
+            @Override
+            public Fragment getItem(int position) {
+                return mFragmentList.get(position);
+            }
+
+            @Override
+            public int getCount() {
+                return mFragmentList.size();
+            }
+        });
+    }
+
+    private View getTabView(int index) {
+        View view = LayoutInflater.from(this).inflate(R.layout.tab_item, null);
+        ImageView image = (ImageView) view.findViewById(R.id.image);
+        TextView title = (TextView) view.findViewById(R.id.title);
+        image.setImageResource(mImages[index]);
+        title.setText(mTitles[index]);
+        return view;
+    }
+
+    private void initEvent() {
+        mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+            @Override
+            public void onTabChanged(String tabId) {
+                mViewPager.setCurrentItem(mTabHost.getCurrentTab());
+            }
+        });
+
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                mTabHost.setCurrentTab(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
     }
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.nav_camera) {
+        } else if (id == R.id.nav_gallery) {
+
+        } else if (id == R.id.nav_slideshow) {
+
+        } else if (id == R.id.nav_manage) {
+
+        } else if (id == R.id.nav_share) {
+
+        } else if (id == R.id.nav_send) {
+
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 }
